@@ -32,7 +32,7 @@ export default class Form extends React.Component {
   handleInquiry = e => this.setState({ inquiry: e.target.getAttribute('id') });
 
   render() {
-    const { name, email, message, inquiry } = this.state;
+    const { name, email, message } = this.state;
     return (
       <form
         name="gatsby-contact"
@@ -40,13 +40,14 @@ export default class Form extends React.Component {
         data-netlify-honeypot="bot-field"
         method="POST"
         onSubmit={this.handleSubmit}
+        action="/src/pages/success.js"
       >
         <input type="hidden" name="form-name" value="gatsby-contact" />
         <p>
           <label>
             Inquiry:
-            <input type="radio" name="form-radio" id="general" value={inquiry} onChange={this.handleInquiry} />
-            <input type="radio" name="form-radio" id="quote" value={inquiry} onChange={this.handleInquiry} />
+            <input type="radio" name="general" id="general" onChange={this.handleInquiry} />
+            <input type="radio" name="quote" id="quote" onChange={this.handleInquiry} />
           </label>
         </p>
         <p>
