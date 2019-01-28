@@ -9,7 +9,7 @@ const encode = (data) => {
 export default class Form extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { name: "", email: "", message: "" };
+    this.state = { name: "", email: "", message: "", inquiry: "" };
   }
 
   /* Here’s the juicy bit for posting the form submission */
@@ -29,8 +29,10 @@ export default class Form extends React.Component {
 
   handleChange = e => this.setState({ [e.target.name]: e.target.value });
 
+  handleInquiry = e => this.setState({ inquiry: e.target.getAttribute('id') });
+
   render() {
-    const { name, email, message } = this.state;
+    const { name, email, message, inquiry } = this.state;
     return (
       <form
         name="gatsby-contact"
@@ -40,6 +42,13 @@ export default class Form extends React.Component {
         onSubmit={this.handleSubmit}
       >
         <input type="hidden" name="form-name" value="gatsby-contact" />
+        <p>
+          <label>
+            Inquiry:
+            <input type="radio" name="form-radio" id="general" value={inquiry} onChange={this.handleInquiry} />
+            <input type="radio" name="form-radio" id="quote" value={inquiry} onChange={this.handleInquiry} />
+          </label>
+        </p>
         <p>
           <label>
             Your Name:
