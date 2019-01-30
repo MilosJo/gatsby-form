@@ -1,4 +1,26 @@
 import React from 'react';
+import isEmail from 'validator/lib/isEmail';
+import posed, { PoseGroup } from 'react-pose';
+
+const Message = posed.div({
+  enter: {
+    opacity: 1,
+    height: 'auto',
+    transition: { duration: 500 },
+  },
+  exit: {
+    opacity: 0,
+    height: 0,
+    transition: { duration: 500 },
+  },
+});
+
+
+const hasContent = value => (value.length >= 3 ? true : false);
+
+const validate = (value, type) =>
+  (type === 'email' ? isEmail(value) : hasContent(value));
+
 
 const encode = (data) => {
   return Object.keys(data)
@@ -9,45 +31,92 @@ const encode = (data) => {
 export default class Form extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { name: "", email: "", message: "", inquiry: "" };
+
+    this.state = {
+      sent: false,
+      error: false,
+      inquiry: 'general',
+      name: '',
+      nameValid: null,
+      email: '',
+      emailValid: null,
+      message: '',
+      messageValid: null,
+    };
   }
 
   /* Here’s the juicy bit for posting the form submission */
 
   handleSubmit = e => {
-    fetch("/", {
-      method: "POST",
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: encode({ "form-name": "gatsby-contact", ...this.state, })
-     
-    })
-      .then(() => alert("Success!"))
-      .catch(error => alert(error));
+    if(
+      this.state.nameValid &&
+      this.state.emailValid &&
+      this.state.messageValid 
+    ) {
+      fetch("/", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: encode({ "form-name": "gatsby-contact", ...this.state, })
+       
+      })
+      .then(() => this.setState({
+        sent: true,
+        error: false,
+        name: '',
+        nameValid: null,
+        email: '',
+        emailValid: null,
+        message: '',
+        messageValid: null,
+      }, () => setTimeout(() => this.setState({ sent: false }), 3500)))
+      .catch(() => this.setState({
+        sent: false,
+        error: 'Ooops... Something went wrong, please try again.',
+      }));
+    } else {
+      this.setState(prevState => ({
+        sent: false,
+        error: 'Please fill out all the fields.',
+        name: prevState.name,
+        nameValid: prevState.nameValid || false,
+        email: prevState.email,
+        emailValid: prevState.emailValid || false,
+        message: prevState.message,
+        messageValid: prevState.messageValid || false,
+      }));
+    }
 
     e.preventDefault();
   };
 
-  handleChange = e => this.setState({ [e.target.name]: e.target.value });
+  handleChange = (e) => {
+    this.setState({
+      [e.target.name]: e.target.value,
+      [`${e.target.name}Valid`]: validate(e.target.value, e.target.type),
+    });
+  }
 
   handleInquiry = e => this.setState({ inquiry: e.target.getAttribute('id') });
 
   render() {
-    const { name, email, message } = this.state;
+    const {
+      name, email, message, sent, error, inquiry
+    } = this.state;
     return (
       <form
         name="gatsby-contact"
         data-netlify="true"
-        data-netlify-honeypot="bot-field"
+        netlify-honeypot="bot-field"
         method="POST"
         onSubmit={this.handleSubmit}
-        action="/src/pages/success.js"
+        action="/pages/success.js"
       >
         <input type="hidden" name="form-name" value="gatsby-contact" />
         <p>
           <label>
             Inquiry:
-            <input type="radio" name="general" id="general" onChange={this.handleInquiry} />
-            <input type="radio" name="quote" id="quote" onChange={this.handleInquiry} />
+            <input type="radio" name="general" id="general" onChange={this.handleInquiry} checked={inquiry === 'general'} />
+            <input type="radio" name="quote" id="quote" onChange={this.handleInquiry} checked={inquiry === 'quote'} />
           </label>
         </p>
         <p>
@@ -67,6 +136,20 @@ export default class Form extends React.Component {
             Message:
             <textarea name="message" value={message} onChange={this.handleChange} />
           </label>
+        </p>
+        <p>
+        <PoseGroup flipMove={false}>
+            {sent &&
+              <Message key="message-sent">
+                {'Thank you for contacting us, someone will get in touch soon!'}
+              </Message>
+            }
+            {error &&
+              <Message key="message-error">
+                {error}
+              </Message>
+            }
+          </PoseGroup>
         </p>
         <p>
           <button name="submit" type="submit">Send</button>
