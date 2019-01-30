@@ -56,7 +56,12 @@ export default class Form extends React.Component {
       fetch("/", {
         method: "POST",
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: encode({ "form-name": "gatsby-contact", ...this.state, })
+        body: encode({
+          "form-name": "gatsby-contact",
+          name: this.state.name,
+          email: this.state.email,
+          message: this.state.message,
+        })
        
       })
       .then(() => this.setState({
