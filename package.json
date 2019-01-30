@@ -18,7 +18,8 @@
     "react-dom": "^16.6.3",
     "react-helmet": "^5.2.0",
     "react-pose": "^4.0.6",
-    "validate": "^4.5.1"
+    "validate": "^4.5.1",
+    "validator": "^10.11.0"
   },
   "keywords": [
     "gatsby"
