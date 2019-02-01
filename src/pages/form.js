@@ -121,11 +121,11 @@ export default class Form extends React.Component {
         <p>
           <label>
             general:
-            <input type="radio" name="general" value="general" onChange={this.handleInquiry} checked={inquiry === 'general'} />
+            <input type="radio" name="inquiry-type" value="general" onChange={this.handleInquiry} checked={inquiry === 'general'} />
           </label>
           <label>
             quote:
-            <input type="radio" name="quote" value="quote" onChange={this.handleInquiry} checked={inquiry === 'quote'} />
+            <input type="radio" name="inquiry-type" value="quote" onChange={this.handleInquiry} checked={inquiry === 'quote'} />
           </label>
         </p>
         <p>
