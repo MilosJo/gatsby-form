@@ -120,12 +120,12 @@ export default class Form extends React.Component {
         <input type="hidden" name="form-name" value="gatsby-contact" />
         <p>
           <label>
-            general:
-            <input type="radio" name="inquiry-type" value="general" onChange={this.handleInquiry} checked={inquiry === 'general'} />
+            <input type="radio" name="inquiry-type" value="general" onChange={this.handleInquiry} checked={inquiry === 'general'}>
+            general</input>
           </label>
           <label>
-            quote:
-            <input type="radio" name="inquiry-type" value="quote" onChange={this.handleInquiry} checked={inquiry === 'quote'} />
+            <input type="radio" name="inquiry-type" value="quote" onChange={this.handleInquiry} checked={inquiry === 'quote'}>
+            quote</input>
           </label>
         </p>
         <p>
