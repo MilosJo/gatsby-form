@@ -61,6 +61,7 @@ export default class Form extends React.Component {
           name: this.state.name,
           email: this.state.email,
           message: this.state.message,
+          inquiry: this.state.inquiry,
         })
        
       })
@@ -101,7 +102,7 @@ export default class Form extends React.Component {
     });
   }
 
-  handleInquiry = e => this.setState({ inquiry: e.target.getAttribute('id') });
+  handleInquiry = e => this.setState({ inquiry: e.target.value });
 
   render() {
     const {
@@ -119,9 +120,12 @@ export default class Form extends React.Component {
         <input type="hidden" name="form-name" value="gatsby-contact" />
         <p>
           <label>
-            Inquiry:
-            <input type="radio" name="general" id="general" onChange={this.handleInquiry} checked={inquiry === 'general'} />
-            <input type="radio" name="quote" id="quote" onChange={this.handleInquiry} checked={inquiry === 'quote'} />
+            general:
+            <input type="radio" name="general" value="general" onChange={this.handleInquiry} checked={inquiry === 'general'} />
+          </label>
+          <label>
+            quote:
+            <input type="radio" name="quote" value="quote" onChange={this.handleInquiry} checked={inquiry === 'quote'} />
           </label>
         </p>
         <p>
