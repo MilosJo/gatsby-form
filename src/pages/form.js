@@ -139,16 +139,6 @@ export default class Form extends React.Component {
             />
             quote
           </label>
-          <label>
-            <input
-              type="radio"
-              name="inquiry"
-              value="test"
-              onChange={this.handleInquiry}
-              checked={inquiry === 'test'}
-            />
-            test
-          </label>
         </p>
         <p>
           <label>
