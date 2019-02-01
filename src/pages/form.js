@@ -115,17 +115,39 @@ export default class Form extends React.Component {
         netlify-honeypot="bot-field"
         method="POST"
         onSubmit={this.handleSubmit}
-        action="/pages/success.js"
+        action="success"
       >
         <input type="hidden" name="form-name" value="gatsby-contact" />
         <p>
           <label>
-            <input type="radio" name="inquiry-type" value="general" onChange={this.handleInquiry} checked={inquiry === 'general'}>
-            general</input>
+            <input
+              type="radio"
+              name="inquiry"
+              value="general"
+              onChange={this.handleInquiry}
+              checked={inquiry === 'general'}
+            />
+            general
           </label>
           <label>
-            <input type="radio" name="inquiry-type" value="quote" onChange={this.handleInquiry} checked={inquiry === 'quote'}>
-            quote</input>
+            <input
+              type="radio"
+              name="inquiry"
+              value="quote"
+              onChange={this.handleInquiry}
+              checked={inquiry === 'quote'}
+            />
+            quote
+          </label>
+          <label>
+            <input
+              type="radio"
+              name="inquiry"
+              value="test"
+              onChange={this.handleInquiry}
+              checked={inquiry === 'test'}
+            />
+            test
           </label>
         </p>
         <p>
