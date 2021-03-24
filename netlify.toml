@@ -1,0 +1,6 @@
+# Production context: all deploys from the Production branch set in your site’s
+# deploy contexts will inherit these settings.
+[context.production]
+  publish = "output/"
+  command = "make publish"
+  environment = { NODE_VERSION = "10.13.0" }
